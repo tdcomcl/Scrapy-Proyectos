@@ -1,0 +1,7 @@
+URL_TO_SEARCH = [
+	'https://www.amazon.com/dp/B00007KDX6/',
+	'https://www.amazon.com/dp/B00WSNKGV0/',
+	'https://www.amazon.com/dp/B01L93JI7W/',
+	'https://www.amazon.com/dp/B07L3WH5DQ/',
+	'https://www.amazon.com/dp/B00OBO8CX8/',
+]

@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
+
+BOT_NAME = 'amazon'
+
+SPIDER_MODULES = ['amazon.spiders']
+NEWSPIDER_MODULE = 'amazon.spiders'
+
+# Configuración
+# Dominio a scrapp. 
+DOMAIN_TO_SCRAPP = "https://www.amazon.com/"
+
+# url con la búsqueda ( lego, impresoras, etc )
+URL_TO_SEARCH = ""
+
+# Máxima cantidad de productos a obtener ( Aproximado * 2 requests ) 
+MAX_CANT_TO_SEARCH = 8000 # == 40 prod aprox con status 200
+ROBOTSTXT_OBEY = True
+# Configure maximum concurrent requests performed by Scrapy (default: 16)
+CONCURRENT_REQUESTS = 20
+CONCURRENT_REQUESTS_PER_DOMAIN = 20
+DOWNLOAD_DELAY = 0.25 # 250 ms of delay
+AUTOTHROTTLE_ENABLED = False
+DOWNLOAD_TIMEOUT = 600
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware':400,# Segundo
+    'amazon.middlewares.CustomProxyMiddleware':300, # Primero
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 350,
+    #'amazon.middlewares.AmazonDownloaderMiddleware': 543,
+}
+ITEM_PIPELINES = {
+    'amazon.pipelines.AmazonPipeline': 600,
+}
+AUTOTHROTTLE_DEBUG = True

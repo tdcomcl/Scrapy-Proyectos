@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
+
+BOT_NAME = 'amazon'
+
+SPIDER_MODULES = ['amazon.spiders']
+NEWSPIDER_MODULE = 'amazon.spiders'
+
+# Configuración
+# Dominio a scrapp. 
+DOMAIN_TO_SCRAPP = "https://www.amazon.com/"
+
+# url con la búsqueda ( lego, impresoras, etc )
+URL_TO_SEARCH = "https://www.amazon.com/gp/search/ref=sr_nr_p_36_3?rnid=386491011&keywords=funko+pop&rh=n%3A165793011%2Ck%3Afunko+pop%2Cp_85%3A2470955011%2Cp_89%3AFunKo%2Cp_6%3AA2L77EE7U53NWQ%7CATVPDKIKX0DER&sort=price-desc-rank&qid=1548257462&low-price=&high-price=69"
+
+# Máxima cantidad de productos a obtener ( Aproximado * 2 requests ) 
+MAX_CANT_TO_SEARCH = 10000 # == 40 prod aprox con status 200
+ROBOTSTXT_OBEY = True
+#DOWNLOAD_DELAY = 0.45 # 250 ms of delay
+CONCURRENT_REQUESTS = 50
+CONCURRENT_REQUESTS_PER_DOMAIN = 50
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_MAX_DELAY = 60.0
+AUTOTHROTTLE_TARGET_CONCURRENCY  = 4.0
+AUTOTHROTTLE_DEBUG = True
+DOWNLOAD_TIMEOUT = 400
+DOWNLOADER_MIDDLEWARES = {
+    #'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware':400,# Segundo
+    #'amazon.middlewares.CustomProxyMiddleware':330, # Primero
+    'scrapy_crawlera.CrawleraMiddleware': 300,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 350,
+    #'amazon.middlewares.AmazonDownloaderMiddleware': 543,
+}
+ITEM_PIPELINES = {
+    'amazon.pipelines.AmazonPipeline': 600,
+}
+# Crawlera Service
+CRAWLERA_ENABLED = True
+CRAWLERA_APIKEY = '86b52c0bde5d4de3a8c1d18964aa1a35'
